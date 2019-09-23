@@ -16,7 +16,6 @@ request(LINK_UNICAP,function(erro,response,html){
             'Digito': 1, // Digitar digito da maticula aqui
             'Senha': 426531, // Digitar senha aqui 
         }
-        console.log(linkTelaLogin);
         
 
         request.post(LINK_UNICAP + linkTelaLogin ,{form:object},function(erro,response,html){
@@ -25,17 +24,48 @@ request(LINK_UNICAP,function(erro,response,html){
 
                 const telaLogin = cheerio.load(html);
                 var linkTelaNotas = telaLogin('form').attr('action');
-                console.log(linkTelaNotas);
 
                 request.post(LINK_UNICAP + linkTelaNotas , {form:{'rotina':23}},function(erro,response,html){
 
                     if(!erro && response.statusCode == 200){
+                        var object = {
+                            matricula:'',
+                            nome:'',
+                            curso:'',
+                            notaGeral:'',
+                            notaPeriodo:'',
+                            disciplinas:[],
+                        }
+                        var table = [];
                         const telaNotas = cheerio.load(html);
-                        table = telaNotas('tr').text();
-                        console.log(table);
-                        
-                        
+                        console.log(html);
 
+                        aux = telaNotas('tr').text(); aux = aux.replace(/\n|\t|\r/gi,'');
+
+                        object.matricula = aux.substring(aux.indexOf("Matrícula") + 9,aux.indexOf("Nome")).trim(); // pegar matricula
+                        object.nome = aux.substring(aux.indexOf("Nome") + 4,aux.indexOf("Curso")).trim(); // pegar nome
+                        object.curso = aux.substring(aux.indexOf("Curso") + 5,aux.indexOf("Curso",aux.indexOf("Curso") + 5)).trim(); // pegar curso
+                        object.notaGeral = aux.substring(aux.indexOf("Curso",aux.indexOf("Curso") + 5) + 5,aux.indexOf("Último")).trim(); // pegar nota geral
+                        object.notaPeriodo = aux.substring(aux.indexOf("Período") + 7,aux.indexOf("Disciplina")).trim(); // pegar nome
+                        
+                        console.log("matricula: "+ object.matricula);
+                        console.log("nome:"+ object.nome);
+                        console.log("curso:"+ object.curso);
+                        console.log("nota1:"+ object.notaGeral);
+                        console.log("nota2:"+ object.notaPeriodo);
+
+                        var novo;
+                        novo = telaNotas('.tab-main').find('table').toArray().reverse();
+                        
+                        
+                        console.log(novo);
+
+                        // aux = aux.substring(aux.indexOf("Situação Final") + 14,aux.length);
+                        // aux = aux.split(' ');
+                        // aux.forEach((el,i)=>{
+                        //     if(el != ''){table.push(el)}
+                        // })
+                        console.log(table);
 
                     }else{
                         console.log("Erro acesso tela de Notas");

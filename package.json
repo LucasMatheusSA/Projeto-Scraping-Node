@@ -1,7 +1,6 @@
 {
   "name": "projeto-scraping-Node",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,5 +12,14 @@
     "cheerio": "^1.0.0-rc.3",
     "i": "^0.3.6",
     "request": "^2.88.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LucasMatheusSA/Projeto-Scraping-Node.git"
+  },
+  "bugs": {
+    "url": "https://github.com/LucasMatheusSA/Projeto-Scraping-Node/issues"
+  },
+  "homepage": "https://github.com/LucasMatheusSA/Projeto-Scraping-Node#readme",
+  "description": ""
 }
